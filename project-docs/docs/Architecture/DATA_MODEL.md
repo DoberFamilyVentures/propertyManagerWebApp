@@ -169,6 +169,10 @@ Core collections include:
 * propertySpaces
 * propertySupplies
 * propertyKnowledgeLinks
+* serviceWorkRequests
+* workRequestReports
+* workRequestEvents
+* workRequestShares
 * devices
 * tasks
 * maintenanceEvents
@@ -1358,6 +1362,56 @@ Maintenance Requests
 ```
 
 Tenant records should not become the source of lease, payment, or accounting information.
+
+---
+
+# Service Work Request Model
+
+Service Work Requests are homeowner-controlled, Property-scoped guided intake
+records for preparing to contact an outside service professional. They are a
+separate domain from resident or tenant `maintenanceRequests`; neither domain
+reuses the other's canonical records, lifecycle, recipients, or permissions.
+
+The initial private HVAC pilot reserves four top-level collections:
+
+```text
+serviceWorkRequests/{workRequestId}
+workRequestReports/{reportVersionId}
+workRequestEvents/{eventId}
+workRequestShares/{shareId}
+```
+
+`serviceWorkRequests` stores the resumable workflow session. Each session is
+owned by one account and Property and stores its contract and policy versions,
+state, revision, structured answers and observations, safety review, selected
+context references, model-usage metadata, and creation/update attribution. It
+does not store an unrestricted conversation transcript or copied Property
+Memory.
+
+`workRequestEvents` is an append-only domain-event ledger. The initial server
+operation writes one `WorkRequestStarted` event atomically with the new session.
+Document IDs and the stored idempotency value are one-way server-generated
+fingerprints, so caller text does not become an event identifier or payload.
+Later accepted transitions may add only the events declared by the versioned
+work-request contract.
+
+`workRequestReports` is reserved for immutable, versioned homeowner-reviewed
+reports. `workRequestShares` is reserved for expiring, revocable,
+minimum-disclosure share records. Neither collection is written by the initial
+start operation, and external sharing is not yet enabled.
+
+All four collections are server-written. Account owners may directly read
+their session, report, and event records when the record's account and Property
+still agree. Share records remain inaccessible to clients because they may hold
+credential verifiers and disclosure selections. Property and owner-account
+deletion includes all four collections in its managed cleanup.
+
+The first callable, `startServiceWorkRequest`, derives the account from the
+authenticated user, requires the account-owner role and an active internal
+`service_work_requests.use` capability grant, revalidates Property ownership in
+the same transaction, and creates the session plus start event together.
+Retries with the same command identity return the existing session without
+adding another event. No plan preset enables the pilot capability.
 
 ---
 

@@ -5,9 +5,10 @@ Maintley's homeowner Service Work Request workflow. It is the shared language
 for future first-party UI, callable Functions, model adapters, assistant
 channels, and provider adapters.
 
-Status: contract foundation only. No Firestore collections, callable Functions,
-LLM provider, contractor integration, or external sharing behavior is enabled
-by this package.
+Status: accepted initial persistence contract. The server implements only the
+pilot-gated `startServiceWorkRequest` command. No interview progression, LLM
+provider, contractor integration, or external sharing behavior is enabled by
+this package.
 
 ## Boundary
 
@@ -42,8 +43,10 @@ records also carry separate schema, report, event, question-policy, and
 safety-policy versions so a workflow can be reconstructed without treating a
 package release as the only source of provenance.
 
-The initial `v1alpha1` identifiers are intentionally pre-persistence. They may
-change during review; once records are written, compatibility must be explicit.
+The initial `v1alpha1` identifiers are persisted by the start command.
+Compatibility is therefore explicit from this point forward. The server stores
+only a one-way fingerprint of the caller's idempotency key in the event ledger;
+the caller-provided value is never copied into the event document.
 
 ## State model
 

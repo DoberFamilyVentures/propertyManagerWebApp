@@ -84,6 +84,39 @@ describe('centralized entitlement resolver', () => {
 		).toBe(0);
 	});
 
+	it('keeps Service Work Requests private unless an active account grant enables them', () => {
+		for (const preset of Object.values(PLAN_PRESETS)) {
+			expect(hasCapability(preset, 'service_work_requests.use')).toBe(false);
+		}
+
+		const enabled = resolveAccountEntitlements({
+			accountId: 'account-1',
+			subscription: activeSubscription('portfolio', 'sub-1'),
+			grants: [
+				grant({
+					source: 'beta',
+					capabilityOverrides: { 'service_work_requests.use': true },
+				}),
+			],
+			nowMs: NOW_MS,
+		});
+		const expired = resolveAccountEntitlements({
+			accountId: 'account-1',
+			subscription: activeSubscription('portfolio', 'sub-1'),
+			grants: [
+				grant({
+					source: 'beta',
+					endsAtMs: NOW_MS,
+					capabilityOverrides: { 'service_work_requests.use': true },
+				}),
+			],
+			nowMs: NOW_MS,
+		});
+
+		expect(enabled.capabilities['service_work_requests.use']).toBe(true);
+		expect(expired.capabilities['service_work_requests.use']).toBe(false);
+	});
+
 	it('reserves business property types and rental management for operator plans', () => {
 		for (const planId of ['homeowner', 'homeowner_plus'] as const) {
 			expect(hasCapability(PLAN_PRESETS[planId], 'property_types.business')).toBe(false);

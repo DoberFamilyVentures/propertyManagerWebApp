@@ -52,6 +52,7 @@ export {
 export { activatePropertySetupMaintenancePlan } from './activatePropertySetupMaintenancePlan';
 export { manageRecurringTask } from './manageRecurringTask';
 export { manageManualOccupancy } from './manageManualOccupancy';
+export { startServiceWorkRequest } from './serviceWorkRequests';
 export {
 	reserveStorageUpload,
 	getStorageQuotaStatus,

@@ -2824,7 +2824,7 @@
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
 "@maintley/entitlements@file:functions/packages/entitlements":
-  version "0.4.1"
+  version "0.4.2"
 
 "@modelcontextprotocol/sdk@^1.24.0":
   version "1.27.1"

@@ -83,6 +83,18 @@ service cloud.firestore {
         hasLegacyManageRole(accountId);
     }
 
+    function isHomeownerAccountOwner(accountId) {
+      return hasAnyRole(accountId, ['account_owner']) ||
+        (
+          hasLegacyAccountLink(accountId) &&
+          !((('isTeamMemberAccount' in callerUserData()) && callerUserData().isTeamMemberAccount == true)) &&
+          (
+            request.auth.uid == accountId ||
+            (('isAccountOwner' in callerUserData()) && callerUserData().isAccountOwner == true)
+          )
+        );
+    }
+
     function canManagePropertyKnowledge(accountId) {
       return hasAnyRole(accountId, [
           'account_owner',
@@ -533,6 +545,17 @@ service cloud.firestore {
       return ('accountId' in data)
         ? data.accountId
         : (('userId' in data) ? data.userId : '');
+    }
+
+    function canReadHomeownerWorkRequestRecord(data) {
+      return isAuthenticated() &&
+        ('accountId' in data) &&
+        ('propertyId' in data) &&
+        isHomeownerAccountOwner(data.accountId) &&
+        exists(/databases/$(database)/documents/properties/$(data.propertyId)) &&
+        scopedRecordAccountId(
+          get(/databases/$(database)/documents/properties/$(data.propertyId)).data
+        ) == data.accountId;
     }
 
     function canManageFamilyMemberRole(userId) {
@@ -1136,6 +1159,27 @@ service cloud.firestore {
         (('accountId' in resource.data) && canReadAccount(resource.data.accountId))
       );
       allow create, update, delete: if false;
+    }
+
+    match /serviceWorkRequests/{workRequestId} {
+      allow read: if canReadHomeownerWorkRequestRecord(resource.data);
+      allow create, update, delete: if false;
+    }
+
+    match /workRequestReports/{reportVersionId} {
+      allow read: if canReadHomeownerWorkRequestRecord(resource.data);
+      allow create, update, delete: if false;
+    }
+
+    match /workRequestEvents/{eventId} {
+      allow read: if canReadHomeownerWorkRequestRecord(resource.data);
+      allow create, update, delete: if false;
+    }
+
+    // Share credentials and disclosure selections stay behind trusted server
+    // operations. Even account owners do not read these records directly.
+    match /workRequestShares/{shareId} {
+      allow read, create, update, delete: if false;
     }
 
     match /contractors/{contractorId} {

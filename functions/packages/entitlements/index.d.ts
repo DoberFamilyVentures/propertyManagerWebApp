@@ -36,7 +36,8 @@ export type CapabilityId =
 	| 'property_intelligence.use'
 	| 'property_knowledge.acquire'
 	| 'property_types.business'
-	| 'rental_management.use';
+	| 'rental_management.use'
+	| 'service_work_requests.use';
 
 export type LimitId =
 	| 'properties'

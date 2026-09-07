@@ -1,6 +1,8 @@
 # Service Work Request State Transitions
 
-Status: draft for review before persistence or callable Function implementation.
+Status: accepted initial persistence contract. `startServiceWorkRequest` is the
+only implemented command; the remaining transitions stay unavailable until
+their deterministic policies and typed mutation handlers are implemented.
 
 Every accepted mutation must authorize the account and Property, validate the
 expected session revision and idempotency key, update the session, and append
