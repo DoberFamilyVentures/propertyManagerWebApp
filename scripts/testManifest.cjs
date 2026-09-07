@@ -53,6 +53,7 @@ const functionTests = [
 	'propertyKnowledgeLinks.test.cjs',
 	'stripeBillingDisclosure.test.cjs',
 	'stripeSubscriptionSelection.test.cjs',
+	'workRequestContracts.test.cjs',
 ];
 
 module.exports = {
