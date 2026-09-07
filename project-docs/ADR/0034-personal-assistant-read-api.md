@@ -6,36 +6,37 @@ Date: 2026-07-29
 
 Related ADRs:
 
-* `0006-maintley-intelligence-architecture.md`
-* `0007-maintenance-events-as-historical-source-of-truth.md`
-* `0018-maintley-event-engine.md`
-* `0022-account-access-resolver-contract.md`
-* `0023-property-documents-as-first-class-records.md`
-* `0026-property-ownership-and-professional-contribution-model.md`
-* `0032-centralized-entitlement-architecture.md`
-* `0033-property-type-and-classification-taxonomy.md`
+- `0006-maintley-intelligence-architecture.md`
+- `0007-maintenance-events-as-historical-source-of-truth.md`
+- `0018-maintley-event-engine.md`
+- `0022-account-access-resolver-contract.md`
+- `0023-property-documents-as-first-class-records.md`
+- `0026-property-ownership-and-professional-contribution-model.md`
+- `0032-centralized-entitlement-architecture.md`
+- `0033-property-type-and-classification-taxonomy.md`
+- `0043-customer-authorized-assistant-and-mcp-boundary.md`
 
 Related documentation:
 
-* `project-docs/docs/Product/PRODUCT_DIRECTION.md`
-* `project-docs/docs/Architecture/DATA_MODEL.md`
-* `project-docs/docs/Architecture/TECHNICAL_ARCHITECTURE.md`
-* `project-docs/docs/Architecture/FIREBASE_STRUCTURE.md`
-* `project-docs/docs/Architecture/PERMISSIONS.md`
-* `project-docs/docs/Intelligence/PROPERTY_INTELLIGENCE.md`
-* `project-docs/docs/Operations/TESTING.md`
+- `project-docs/docs/Product/PRODUCT_DIRECTION.md`
+- `project-docs/docs/Architecture/DATA_MODEL.md`
+- `project-docs/docs/Architecture/TECHNICAL_ARCHITECTURE.md`
+- `project-docs/docs/Architecture/FIREBASE_STRUCTURE.md`
+- `project-docs/docs/Architecture/PERMISSIONS.md`
+- `project-docs/docs/Intelligence/PROPERTY_INTELLIGENCE.md`
+- `project-docs/docs/Operations/TESTING.md`
 
 ## Context
 
 Maintley preserves property information that can help a personal assistant
 answer practical questions such as:
 
-* What maintenance is coming up?
-* Which tasks are overdue?
-* What work was completed recently?
-* What equipment is recorded at a property?
-* What does Maintley currently know about the property?
-* Which explainable Maintley Intelligence findings need attention?
+- What maintenance is coming up?
+- Which tasks are overdue?
+- What work was completed recently?
+- What equipment is recorded at a property?
+- What does Maintley currently know about the property?
+- Which explainable Maintley Intelligence findings need attention?
 
 The first consumer will be the Maintley owner's privately controlled personal
 assistant application. It is not initially a public developer platform,
@@ -91,12 +92,12 @@ phase.
 
 Maintley Owner means the owner of Maintley itself. It does not mean:
 
-* homeowner
-* customer account owner
-* property owner
-* landlord
-* property manager
-* customer administrator
+- homeowner
+- customer account owner
+- property owner
+- landlord
+- property manager
+- customer administrator
 
 Credential administration must be verified by a trusted server operation.
 Hiding the credential interface is not an authorization boundary.
@@ -113,19 +114,19 @@ deferred until Maintley supports third-party or customer-created integrations.
 
 Credential behavior:
 
-* the secret is generated with cryptographically secure randomness
-* the full token is displayed once at creation
-* Maintley never stores or logs the plaintext token
-* the stored verifier uses a server-held secret from Secret Manager
-* the token contains a non-secret credential identifier or prefix for lookup
-* verification uses a constant-time comparison
-* the token is accepted only in the `Authorization: Bearer` header
-* query-string credentials are rejected
-* credentials have a user-selected name
-* credentials may have an optional expiration timestamp
-* credentials can be revoked immediately
-* rotation creates a new secret and invalidates the previous secret
-* `lastUsedAt` is updated in a throttled manner
+- the secret is generated with cryptographically secure randomness
+- the full token is displayed once at creation
+- Maintley never stores or logs the plaintext token
+- the stored verifier uses a server-held secret from Secret Manager
+- the token contains a non-secret credential identifier or prefix for lookup
+- verification uses a constant-time comparison
+- the token is accepted only in the `Authorization: Bearer` header
+- query-string credentials are rejected
+- credentials have a user-selected name
+- credentials may have an optional expiration timestamp
+- credentials can be revoked immediately
+- rotation creates a new secret and invalidates the previous secret
+- `lastUsedAt` is updated in a throttled manner
 
 The assistant application must keep the token in server-side secret storage.
 The token must not be embedded in browser JavaScript, a distributed mobile
@@ -228,14 +229,14 @@ will not expose raw Firestore snapshots or collection implementation details.
 
 Responses will include, where applicable:
 
-* resource ID
-* property ID
-* display label or title
-* current status
-* relevant dates and timezone
-* source or provenance identifiers
-* `createdAt` and `updatedAt`
-* pagination cursor
+- resource ID
+- property ID
+- display label or title
+- current status
+- relevant dates and timezone
+- source or provenance identifiers
+- `createdAt` and `updatedAt`
+- pagination cursor
 
 Maintley Intelligence responses must remain explainable. They may include the
 finding, recommendation, severity, supporting evidence, property context, and
@@ -251,22 +252,22 @@ presentation.
 
 The first API may return document metadata such as:
 
-* document ID
-* property ID
-* display name
-* category
-* document type
-* upload date
-* related equipment, task, or Maintenance Event IDs
-* acquisition or review status
+- document ID
+- property ID
+- display name
+- category
+- document type
+- upload date
+- related equipment, task, or Maintenance Event IDs
+- acquisition or review status
 
 It must not return:
 
-* file contents
-* extracted raw text
-* signed or public download URLs
-* Storage paths
-* document-processing artifacts
+- file contents
+- extracted raw text
+- signed or public download URLs
+- Storage paths
+- document-processing artifacts
 
 Warranty dates and ordinary warranty fields already associated with an allowed
 property or equipment record may be returned through the applicable property or
@@ -276,19 +277,19 @@ equipment scope. Complete warranty-document contents remain excluded.
 
 The first API does not expose:
 
-* tenant or resident names and contact details
-* family-member or team-member details
-* property access lists or permission snapshots
-* user profiles
-* billing, subscription, or payment information
-* maintenance financial details or cost reports
-* document file contents or download access
-* raw notifications or push tokens
-* admin users or admin sessions
-* support inbox or feedback records
-* entitlement administration
-* audit logs
-* secrets or integration credential records
+- tenant or resident names and contact details
+- family-member or team-member details
+- property access lists or permission snapshots
+- user profiles
+- billing, subscription, or payment information
+- maintenance financial details or cost reports
+- document file contents or download access
+- raw notifications or push tokens
+- admin users or admin sessions
+- support inbox or feedback records
+- entitlement administration
+- audit logs
+- secrets or integration credential records
 
 Adding one of these data classes requires an explicit scope and security review.
 Maintley admin-portal feedback requires a separate authorization decision even
@@ -299,15 +300,15 @@ while the only consumer is the Maintley owner's assistant.
 The initial API accepts only safe read operations for resource endpoints. It
 must reject attempts to:
 
-* create or update a property
-* create, edit, complete, postpone, or delete a task
-* create or correct a Maintenance Event
-* create or change equipment
-* upload, link, or delete a document
-* start document acquisition
-* change recurrence or generate the next occurrence
-* invite or modify a person
-* change billing or entitlements
+- create or update a property
+- create, edit, complete, postpone, or delete a task
+- create or correct a Maintenance Event
+- create or change equipment
+- upload, link, or delete a document
+- start document acquisition
+- change recurrence or generate the next occurrence
+- invite or modify a person
+- change billing or entitlements
 
 No read request may trigger writes to customer records. Operational writes
 limited to credential usage throttling, rate limiting, and minimized audit
@@ -350,13 +351,13 @@ createdAt
 
 The audit must not record:
 
-* plaintext tokens
-* authorization headers
-* response bodies
-* task descriptions or notes
-* maintenance notes
-* document names when avoidable
-* property names or addresses
+- plaintext tokens
+- authorization headers
+- response bodies
+- task descriptions or notes
+- maintenance notes
+- document names when avoidable
+- property names or addresses
 
 Security logs and product analytics remain separate systems.
 
@@ -384,16 +385,16 @@ under the request ID without exposing it to the caller.
 
 The following require later decisions:
 
-* OAuth and customer-created integrations
-* a public developer portal
-* MCP hosting as a public Maintley service
-* third-party application consent screens
-* admin-portal feedback access
-* support inbox access
-* task completion or scheduling
-* property, equipment, or Maintenance Event writes
-* webhook subscriptions
-* autonomous background actions
+- OAuth and customer-created integrations
+- a public developer portal
+- MCP hosting as a public Maintley service
+- third-party application consent screens
+- admin-portal feedback access
+- support inbox access
+- task completion or scheduling
+- property, equipment, or Maintenance Event writes
+- webhook subscriptions
+- autonomous background actions
 
 Future write access will require idempotency keys, explicit attribution,
 confirmation boundaries, conflict handling, auditability, and narrowly scoped
@@ -412,49 +413,49 @@ through a configuration toggle.
 
 ### Benefits
 
-* The personal assistant can answer useful property questions without direct
+- The personal assistant can answer useful property questions without direct
   Firestore access.
-* The first implementation is small enough for a private owner-controlled use
+- The first implementation is small enough for a private owner-controlled use
   case while preserving a path to OAuth later.
-* Explicit scopes and property allowlists constrain accidental disclosure.
-* Stable API models protect the assistant from internal schema migrations.
-* Read-only credentials cannot silently evolve into write credentials.
-* Admin-portal feedback remains behind its separate operational boundary.
+- Explicit scopes and property allowlists constrain accidental disclosure.
+- Stable API models protect the assistant from internal schema migrations.
+- Read-only credentials cannot silently evolve into write credentials.
+- Admin-portal feedback remains behind its separate operational boundary.
 
 ### Tradeoffs
 
-* Maintley must build credential issuance, secure verification, rotation,
+- Maintley must build credential issuance, secure verification, rotation,
   revocation, rate limiting, and access auditing before exposing useful data.
-* API response models and compatibility adapters must be maintained alongside
+- API response models and compatibility adapters must be maintained alongside
   application models.
-* Explicit property allowlists require manual updates when a new property
+- Explicit property allowlists require manual updates when a new property
   should become available to the assistant.
-* A personal access token is appropriate for the private first consumer but is
+- A personal access token is appropriate for the private first consumer but is
   not sufficient for a future public integration platform.
 
 ## Initial implementation boundaries
 
 The first implementation will include:
 
-* Maintley Owner-only credential management
-* one private server-side personal-assistant consumer
-* scoped, revocable, hashed personal access tokens
-* explicit property allowlists
-* versioned REST endpoints and OpenAPI documentation
-* properties, equipment, tasks, Maintenance Events, explainable Intelligence,
+- Maintley Owner-only credential management
+- one private server-side personal-assistant consumer
+- scoped, revocable, hashed personal access tokens
+- explicit property allowlists
+- versioned REST endpoints and OpenAPI documentation
+- properties, equipment, tasks, Maintenance Events, explainable Intelligence,
   warranty fields, and document metadata
-* pagination and date filters
-* the cross-property upcoming-work view
-* rate limiting and minimized access auditing
-* emulator and authorization tests
-* active architecture, permissions, deployment, and testing documentation
+- pagination and date filters
+- the cross-property upcoming-work view
+- rate limiting and minimized access auditing
+- emulator and authorization tests
+- active architecture, permissions, deployment, and testing documentation
 
 The first implementation will not include:
 
-* browser or mobile token storage
-* OAuth
-* customer-generated credentials
-* access to other customer accounts
-* tenant, team, billing, financial, document-content, or admin-portal data
-* any customer-record write endpoint
-* autonomous assistant actions
+- browser or mobile token storage
+- OAuth
+- customer-generated credentials
+- access to other customer accounts
+- tenant, team, billing, financial, document-content, or admin-portal data
+- any customer-record write endpoint
+- autonomous assistant actions

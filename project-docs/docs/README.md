@@ -92,21 +92,21 @@ Answers:
 
 Documents:
 
-* PRODUCT_DIRECTION.md
-* FEATURES.md
-* PUBLIC_SEO.md
-* PUBLIC_SEO_ARCHITECTURE.md
-* ANALYTICS_MEASUREMENT_PLAN.md
-* MAINTLEY_PLAN_FEATURE_MATRIX.md
-* ROADMAP_STATUS.md
+- PRODUCT_DIRECTION.md
+- FEATURES.md
+- PUBLIC_SEO.md
+- PUBLIC_SEO_ARCHITECTURE.md
+- ANALYTICS_MEASUREMENT_PLAN.md
+- MAINTLEY_PLAN_FEATURE_MATRIX.md
+- ROADMAP_STATUS.md
 
 Contains:
 
-* Product vision
-* Strategic direction
-* Platform capabilities
-* Plan limitations
-* Customer-facing functionality
+- Product vision
+- Strategic direction
+- Platform capabilities
+- Plan limitations
+- Customer-facing functionality
 
 ---
 
@@ -118,21 +118,21 @@ Answers:
 
 Documents:
 
-* PROPERTY_INTELLIGENCE.md
-* RECOMMENDATION_ENGINE.md
-* APPLIANCE_PROFILES.md
-* PROPERTY_KNOWLEDGE_ACQUISITION.md
-* PROPERTY_KNOWLEDGE_ACQUISITION_STATUS_MATRIX.md
+- PROPERTY_INTELLIGENCE.md
+- RECOMMENDATION_ENGINE.md
+- APPLIANCE_PROFILES.md
+- PROPERTY_KNOWLEDGE_ACQUISITION.md
+- PROPERTY_KNOWLEDGE_ACQUISITION_STATUS_MATRIX.md
 
 Contains:
 
-* Maintley Intelligence architecture
-* Property Knowledge Acquisition
-* Property Knowledge Acquisition source support status
-* Recommendation generation
-* Equipment profile guidance
-* Setup guidance
-* Insight generation
+- Maintley Intelligence architecture
+- Property Knowledge Acquisition
+- Property Knowledge Acquisition source support status
+- Recommendation generation
+- Equipment profile guidance
+- Setup guidance
+- Insight generation
 
 Maintley Intelligence should remain a derived system.
 
@@ -148,23 +148,32 @@ Answers:
 
 Documents:
 
-* DATA_MODEL.md
-* TECHNICAL_ARCHITECTURE.md
-* FIREBASE_STRUCTURE.md
-* FIRESTORE_QUERY_CONTRACTS.md
-* PERMISSIONS.md
-* PERSONAL_ASSISTANT_API.md
-* FILES_AND_STORAGE.md
-* MAINTENANCE_EVENT_SCHEMA.md
+- DATA_MODEL.md
+- TECHNICAL_ARCHITECTURE.md
+- FIREBASE_STRUCTURE.md
+- FIRESTORE_QUERY_CONTRACTS.md
+- PERMISSIONS.md
+- PERSONAL_ASSISTANT_API.md
+- FILES_AND_STORAGE.md
+- MAINTENANCE_EVENT_SCHEMA.md
 
 Contains:
 
-* Data ownership
-* Collection structures
-* Firebase architecture
-* Permission boundaries
-* Storage architecture
-* Historical record models
+- Data ownership
+- Collection structures
+- Firebase architecture
+- Permission boundaries
+- Storage architecture
+- Historical record models
+
+---
+
+# Product direction
+
+Documents:
+
+- Product/PRODUCT_DIRECTION.md
+- Product/MAINTLEY_PLATFORM_DIRECTION.md
 
 ---
 
@@ -176,20 +185,20 @@ Answers:
 
 Documents:
 
-* BILLING.md
-* DEPLOYMENT.md
-* CI_RELEASE_GATES.md
-* EMAIL_NOTIFICATIONS.md
-* TESTING.md
-* ANDROID_RELEASE_ACCEPTANCE.md
-* WORKFLOW_ERROR_TAXONOMY.md
+- BILLING.md
+- DEPLOYMENT.md
+- CI_RELEASE_GATES.md
+- EMAIL_NOTIFICATIONS.md
+- TESTING.md
+- ANDROID_RELEASE_ACCEPTANCE.md
+- WORKFLOW_ERROR_TAXONOMY.md
 
 Contains:
 
-* Billing systems
-* Deployment workflows
-* Email architecture
-* Testing strategy
+- Billing systems
+- Deployment workflows
+- Email architecture
+- Testing strategy
 
 Operational documentation should be updated whenever production processes change.
 
@@ -203,16 +212,16 @@ Answers:
 
 Documents:
 
-* UX_LANGUAGE_GUIDE.md
-* MOBILE_UX_GUIDE.md
+- UX_LANGUAGE_GUIDE.md
+- MOBILE_UX_GUIDE.md
 
 Contains:
 
-* Language standards
-* Navigation principles
-* Mobile-first design guidance
-* Dashboard guidance
-* Communication standards
+- Language standards
+- Navigation principles
+- Mobile-first design guidance
+- Dashboard guidance
+- Communication standards
 
 Mobile should be treated as a first-class experience.
 
@@ -226,17 +235,17 @@ Answers:
 
 Documents:
 
-* CODE_ORGANIZATION_GUIDE.md
-* DOCUMENTATION_MAINTENANCE.md
-* SCRIPTS_AND_UTILITIES.md
+- CODE_ORGANIZATION_GUIDE.md
+- DOCUMENTATION_MAINTENANCE.md
+- SCRIPTS_AND_UTILITIES.md
 
 Contains:
 
-* Code organization standards
-* Refactoring guidance
-* Documentation processes
-* Script inventory
-* Operational tooling
+- Code organization standards
+- Refactoring guidance
+- Documentation processes
+- Script inventory
+- Operational tooling
 
 Development documentation should help maintain consistency across future implementations.
 
@@ -250,13 +259,13 @@ Answers:
 
 Documents:
 
-* THIRD_PARTY_LICENSES.md
+- THIRD_PARTY_LICENSES.md
 
 Contains:
 
-* Open source dependency inventory
-* License tracking
-* Compliance references
+- Open source dependency inventory
+- License tracking
+- Compliance references
 
 ---
 
@@ -274,9 +283,9 @@ Archive/
 
 Archived documentation is retained for:
 
-* Historical context
-* Migration reference
-* Legacy implementation details
+- Historical context
+- Migration reference
+- Legacy implementation details
 
 Archived documentation is not authoritative.
 
@@ -338,12 +347,12 @@ User Action
 
 Core principles:
 
-* Property-centric organization
-* Maintenance Event-centric history
-* Maintley Intelligence-driven guidance
-* Mobile-first experience
-* Account-centric ownership
-* Clear ownership boundaries
+- Property-centric organization
+- Maintenance Event-centric history
+- Maintley Intelligence-driven guidance
+- Mobile-first experience
+- Account-centric ownership
+- Clear ownership boundaries
 
 Properties provide context.
 
@@ -363,8 +372,8 @@ Documentation should answer:
 
 If a document does not help answer that question, consider whether it belongs in:
 
-* ADR/
-* reports/
-* Archive/
+- ADR/
+- reports/
+- Archive/
 
 instead of the active documentation set.

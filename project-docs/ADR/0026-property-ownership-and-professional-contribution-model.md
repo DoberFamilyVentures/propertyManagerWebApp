@@ -4,7 +4,10 @@ Status: Proposed (Revised)
 
 Date: 2026-07-21
 
-Related ADR: `0027-business-licensing-property-stewardship-and-record-attribution.md`
+Related ADRs:
+
+- `0027-business-licensing-property-stewardship-and-record-attribution.md`
+- `0044-provider-neutral-work-request-and-contractor-response.md`
 
 Related report: `project-docs/reports/2026-07-21-business-licensing-readiness-and-implementation-plan.md`
 
@@ -79,20 +82,20 @@ permissions, and required maintenance-event attribution.
 Property Memory includes structured operational knowledge that can remain
 useful across changes in occupancy or ownership, including:
 
-* property systems and equipment
-* maintenance events and service dates
-* warranties and service intervals
-* explainable maintenance recommendations
-* non-personal documents intentionally designated for transition
+- property systems and equipment
+- maintenance events and service dates
+- warranties and service intervals
+- explainable maintenance recommendations
+- non-personal documents intentionally designated for transition
 
 Private homeowner context is not transferable by default, including:
 
-* personal notes
-* costs and financial information
-* receipts
-* personal photographs and documents
-* household-member information
-* user names or other personal identity data
+- personal notes
+- costs and financial information
+- receipts
+- personal photographs and documents
+- household-member information
+- user names or other personal identity data
 
 Data classification and export eligibility must be explicit. Maintley must not
 infer that every field attached to a property is safe to transfer.
@@ -138,28 +141,28 @@ Implementation aligned with this decision must:
 
 This ADR does not:
 
-* create a CRM, scheduling, dispatch, invoicing, or field-service platform
-* make Maintley responsible for a professional's services or record accuracy
-* authorize businesses to access homeowner-private data
-* define a live account-transfer workflow
-* make a sponsor or subscription payer the property owner
+- create a CRM, scheduling, dispatch, invoicing, or field-service platform
+- make Maintley responsible for a professional's services or record accuracy
+- authorize businesses to access homeowner-private data
+- define a live account-transfer workflow
+- make a sponsor or subscription payer the property owner
 
 ## Consequences
 
 ### Positive
 
-* Maintley remains clearly homeowner-first.
-* Business access is revocable without weakening auditability.
-* Durable property knowledge can be shared without transferring an account or
+- Maintley remains clearly homeowner-first.
+- Business access is revocable without weakening auditability.
+- Durable property knowledge can be shared without transferring an account or
   exposing private homeowner context.
-* Ownership, payment, and contribution responsibilities remain explainable.
+- Ownership, payment, and contribution responsibilities remain explainable.
 
 ### Trade-offs
 
-* Transition exports require deliberate data classification.
-* A report is less seamless than direct account transfer.
-* Future import will need provenance and conflict-resolution rules.
-* Existing ownership-transfer planning and terminology must be updated.
+- Transition exports require deliberate data classification.
+- A report is less seamless than direct account transfer.
+- Future import will need provenance and conflict-resolution rules.
+- Existing ownership-transfer planning and terminology must be updated.
 
 ## Implementation sequence
 
@@ -171,9 +174,9 @@ This ADR does not:
 
 ## Decision principles
 
-* Homeowners own Property Memory.
-* Businesses contribute under limited, revocable authority.
-* Attribution records who submitted information; it does not certify truth.
-* Operational property knowledge may transition; personal context does not.
-* Access history survives revocation, but access itself does not.
-* Live ownership transfer is deferred unless a later ADR explicitly authorizes it.
+- Homeowners own Property Memory.
+- Businesses contribute under limited, revocable authority.
+- Attribution records who submitted information; it does not certify truth.
+- Operational property knowledge may transition; personal context does not.
+- Access history survives revocation, but access itself does not.
+- Live ownership transfer is deferred unless a later ADR explicitly authorizes it.
