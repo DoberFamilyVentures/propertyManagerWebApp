@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions/v1';
+import { isEmailVerificationRequired } from './emailVerificationRequirement';
 
 if (!admin.apps.length) {
 	admin.initializeApp();
@@ -17,7 +18,8 @@ export const finalizeEmailVerification = functions.https.onCall(
 		}
 
 		const userRecord = await admin.auth().getUser(context.auth.uid);
-		if (!userRecord.emailVerified) {
+		const verificationRequired = isEmailVerificationRequired();
+		if (verificationRequired && !userRecord.emailVerified) {
 			throw new functions.https.HttpsError(
 				'failed-precondition',
 				'Your email is not verified yet.',
@@ -35,9 +37,11 @@ export const finalizeEmailVerification = functions.https.onCall(
 
 		const user = userSnapshot.data() || {};
 		const updates: Record<string, unknown> = {
-			emailVerifiedAt: admin.firestore.FieldValue.serverTimestamp(),
 			updatedAt: admin.firestore.FieldValue.serverTimestamp(),
 		};
+		if (userRecord.emailVerified) {
+			updates.emailVerifiedAt = admin.firestore.FieldValue.serverTimestamp();
+		}
 		if (user.registrationStatus === 'pending_email_verification') {
 			updates.registrationStatus = 'active';
 		}
@@ -46,7 +50,8 @@ export const finalizeEmailVerification = functions.https.onCall(
 
 		return {
 			status: 'active' as const,
-			emailVerified: true,
+			emailVerified: userRecord.emailVerified,
+			verificationRequired,
 		};
 	},
 );

@@ -131,6 +131,7 @@ import {
 	sendCurrentUserEmailVerification,
 } from '../../services/emailVerificationService';
 import { trackAnalyticsEvent } from '../../analytics/analytics';
+import { isEmailVerificationRequired } from '../../config/emailVerificationPolicy';
 
 export const UserProfile: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
@@ -582,7 +583,7 @@ export const UserProfile: React.FC = () => {
 	}, [currentUser, navigate]);
 
 	useEffect(() => {
-		if (!auth.currentUser) return;
+		if (!isEmailVerificationRequired() || !auth.currentUser) return;
 		void refreshCurrentUserEmailVerification()
 			.then(setIsEmailVerified)
 			.catch(() => undefined);
@@ -964,7 +965,7 @@ export const UserProfile: React.FC = () => {
 
 					<AccountActionsPanel>
 						<ProfileSectionTitle>Account Actions</ProfileSectionTitle>
-						{!isEmailVerified ? (
+						{isEmailVerificationRequired() && !isEmailVerified ? (
 							<>
 								<ActionHelperText>
 									Verify {currentUser.email} so Maintley can confirm that account messages are reaching you. Maintley will recognize verification the next time you sign in.

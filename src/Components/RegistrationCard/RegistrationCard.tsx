@@ -57,6 +57,7 @@ import {
 	finalizeCurrentUserEmailVerification,
 	sendCurrentUserEmailVerification,
 } from '../../services/emailVerificationService';
+import { isEmailVerificationRequired } from '../../config/emailVerificationPolicy';
 
 // Map selected account type to appropriate role
 const getRoleFromAccountType = (accountType: string): string => {
@@ -520,16 +521,28 @@ export const RegistrationCard = () => {
 			// Update Redux store to mark user as logged in
 			dispatch(setCurrentUser(user));
 
-			try {
-				await sendCurrentUserEmailVerification();
-				void trackAnalyticsEvent('email_verification_sent', {
-					verification_source: 'registration',
+			if (isEmailVerificationRequired()) {
+				try {
+					await sendCurrentUserEmailVerification();
+					void trackAnalyticsEvent('email_verification_sent', {
+						verification_source: 'registration',
+					});
+				} catch (verificationError) {
+					console.warn(
+						'Account created, but the verification email was not sent.',
+						verificationError,
+					);
+				}
+			} else {
+				void trackAnalyticsEvent('signup_completed', {
+					registration_mode: user.registrationMode || 'standard',
+					selected_plan:
+						user.subscription?.pendingCheckoutPlan ||
+						user.subscription?.plan ||
+						'homeowner',
+					used_access_code: hasRegistrationAccessCode,
+					requires_checkout: Boolean(user.subscription?.pendingCheckoutPlan),
 				});
-			} catch (verificationError) {
-				console.warn(
-					'Account created, but the verification email was not sent.',
-					verificationError,
-				);
 			}
 
 			if (hasRegistrationAccessCode) {
@@ -538,7 +551,16 @@ export const RegistrationCard = () => {
 				return;
 			}
 
-			navigate('/verify-email', { replace: true });
+			if (isEmailVerificationRequired()) {
+				navigate('/verify-email', { replace: true });
+			} else if (user.subscription?.pendingCheckoutPlan) {
+				navigate('/checkout/start', { replace: true });
+			} else {
+				navigate(
+					user.role === USER_ROLES.TENANT ? '/tenant-profile' : '/dashboard',
+					{ replace: true },
+				);
+			}
 		} catch (error: any) {
 			console.error('RegistrationCard: Registration error', error);
 			void trackAnalyticsEvent('workflow_error_shown', {
@@ -911,7 +933,9 @@ export const RegistrationCard = () => {
 			{step === 4 && (
 				<>
 					<TrialNotice>
-						Verify your email, then review this code before activating temporary access.
+						{isEmailVerificationRequired()
+							? 'Verify your email, then review this code before activating temporary access.'
+							: 'Review this code before activating temporary access.'}
 					</TrialNotice>
 					{complimentaryError ? <ErrorMessage>{complimentaryError}</ErrorMessage> : null}
 					<Input
@@ -947,7 +971,9 @@ export const RegistrationCard = () => {
 						onClick={() => {
 							sessionStorage.removeItem('pendingComplimentaryAccessCode');
 							navigate(
-								auth.currentUser?.emailVerified ? '/dashboard' : '/verify-email',
+								!isEmailVerificationRequired() || auth.currentUser?.emailVerified
+									? '/dashboard'
+									: '/verify-email',
 								{ replace: true },
 							);
 						}}>

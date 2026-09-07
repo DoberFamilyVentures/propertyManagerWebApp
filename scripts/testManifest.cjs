@@ -41,6 +41,7 @@ const functionTests = [
 	'complimentaryAccessCodes.test.cjs',
 	'docxServiceReport.test.cjs',
 	'emailVerificationPolicy.test.cjs',
+	'emailVerificationRequirement.test.cjs',
 	'grantAwareCheckout.test.cjs',
 	'inspectionDocumentUnderstanding.test.cjs',
 	'legacyMaintenancePromotion.test.cjs',
@@ -52,6 +53,7 @@ const functionTests = [
 	'propertyKnowledgeLinks.test.cjs',
 	'stripeBillingDisclosure.test.cjs',
 	'stripeSubscriptionSelection.test.cjs',
+	'workRequestContracts.test.cjs',
 ];
 
 module.exports = {

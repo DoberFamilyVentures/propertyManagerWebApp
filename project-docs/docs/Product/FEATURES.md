@@ -24,15 +24,15 @@ For related documentation:
 
 # Accounts and Email Verification
 
-New email-and-password registrations verify their email address before entering
-checkout, onboarding, or the working application. Users can resend the message
-and resume the same registration after verification. The verification screen
-confirms Firebase's status before continuing, while `Do this later` signs the
-pending user out. A later login recognizes an already-verified address and
-completes activation automatically. Existing accounts remain available when
-they predate this requirement, and an unverified existing user can request
-verification from Profile. Maintley does not automatically delete an account
-because its email is unverified.
+In production, new email-and-password registrations verify their email address
+before entering checkout, onboarding, or the working application. Users can
+resend the message, sign out, and resume the same registration after
+verification. A later login recognizes an already-verified address and completes
+activation automatically. Existing accounts remain available when they predate
+this requirement, and an unverified existing user can request verification from
+Profile. Maintley does not automatically delete an account because its email is
+unverified. Isolated Beta and local environments explicitly bypass verification
+and email delivery while retaining a trusted server-side profile transition.
 
 ---
 

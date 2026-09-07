@@ -50,8 +50,13 @@ const renderProtectedRoute = (
 };
 
 describe('ProtectedRoutes', () => {
+	const originalRequirement = process.env.REACT_APP_REQUIRE_EMAIL_VERIFICATION;
+	const originalProjectId = process.env.REACT_APP_FIREBASE_PROJECT_ID;
+
 	beforeEach(() => {
 		mockDispatch.mockClear();
+		process.env.REACT_APP_REQUIRE_EMAIL_VERIFICATION = 'true';
+		process.env.REACT_APP_FIREBASE_PROJECT_ID = 'maintleybeta';
 		mockState = {
 			user: {
 				currentUser: null,
@@ -87,6 +92,19 @@ describe('ProtectedRoutes', () => {
 		expect(screen.getByText('Paywall Page')).toBeInTheDocument();
 	});
 
+	afterAll(() => {
+		if (originalRequirement === undefined) {
+			delete process.env.REACT_APP_REQUIRE_EMAIL_VERIFICATION;
+		} else {
+			process.env.REACT_APP_REQUIRE_EMAIL_VERIFICATION = originalRequirement;
+		}
+		if (originalProjectId === undefined) {
+			delete process.env.REACT_APP_FIREBASE_PROJECT_ID;
+		} else {
+			process.env.REACT_APP_FIREBASE_PROJECT_ID = originalProjectId;
+		}
+	});
+
 	it('keeps newly registered users out of the app until email verification', () => {
 		mockState.user.currentUser = {
 			id: 'u1',
@@ -105,6 +123,27 @@ describe('ProtectedRoutes', () => {
 
 		expect(screen.getByText('Verify Email Page')).toBeInTheDocument();
 		expect(screen.queryByText('Report Page')).not.toBeInTheDocument();
+	});
+
+	it('allows a pending profile through in an explicitly exempt environment', () => {
+		process.env.REACT_APP_REQUIRE_EMAIL_VERIFICATION = 'false';
+		mockState.user.currentUser = {
+			id: 'u1',
+			email: 'pending@test.com',
+			role: 'admin',
+			registrationStatus: 'pending_email_verification',
+			subscription: {
+				status: 'active',
+				plan: 'homeowner',
+				currentPeriodStart: 1,
+				currentPeriodEnd: 2,
+			},
+		};
+
+		renderProtectedRoute('/report');
+
+		expect(screen.getByText('Report Page')).toBeInTheDocument();
+		expect(screen.queryByText('Verify Email Page')).not.toBeInTheDocument();
 	});
 
 	it('grandfathers existing users without a registration status', () => {

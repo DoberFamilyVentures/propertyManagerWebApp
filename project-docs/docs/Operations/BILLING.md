@@ -244,12 +244,13 @@ Users may use the free homeowner plan without creating a Stripe subscription.
 
 No Stripe customer is required until entering a paid plan flow.
 
-Free registration creates the Firebase user and a pending Firestore profile,
-then requires Firebase email verification before opening onboarding. The
-authenticated session remains available while the user verifies the address.
-After trusted finalization changes the profile to active, Maintley continues to
-onboarding without requiring another registration. Existing profiles without a
-registration status remain active for compatibility.
+Free registration creates the Firebase user and a pending Firestore profile. In
+production, it then requires Firebase email verification before opening
+onboarding. The authenticated session remains available while the user verifies
+the address. After trusted finalization changes the profile to active, Maintley
+continues to onboarding without requiring another registration. Beta and local
+development skip the email step and activate through the same trusted callable.
+Existing profiles without a registration status remain active for compatibility.
 
 ---
 
@@ -270,8 +271,8 @@ Expected flow:
 1. User selects plan.
 2. Maintley creates the Firebase account with the Free plan as its entitlement
    and records the selected paid plan as pending checkout intent.
-3. The browser opens the protected `/checkout/start` route outside the main
-   application layout.
+3. After any required email verification, the browser opens the protected
+   `/checkout/start` route outside the main application layout.
 4. That route requests a Stripe Checkout session and redirects the browser to
    the returned Stripe URL.
 5. Stripe processes payment and returns the authenticated user to
@@ -300,11 +301,13 @@ not wait on a separate `ensureFamilyAccount` callable. The
 and owner membership within the same server invocation before creating the
 Stripe session. This avoids an additional callable cold start while preserving
 account consistency. Free registration still completes family-account setup,
-but opens onboarding only after email verification because it has no checkout
-step to perform that work.
+but production opens onboarding only after required email verification because
+it has no checkout step to perform that work. Beta and local environments
+continue directly.
 
 Checkout completion runs outside the primary application layout. The dashboard
-and onboarding flow must not mount until verification and profile refresh finish.
+and onboarding flow must not mount until any required verification and profile
+refresh finish.
 Checkout completion must not use a full-page reload to discover the paid plan.
 If verification is temporarily unavailable, the completion page provides retry
 and return-to-plans actions while preserving the user's account.

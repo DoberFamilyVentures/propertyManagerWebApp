@@ -8,6 +8,7 @@ import { openRegistrationInBrowser } from '../../utils/authLinks';
 import { LoadingState } from '../../Components/LoadingState';
 import { RootState } from '../../Redux/store/store';
 import { USER_ROLES } from '../../constants/roles';
+import { isEmailVerificationRequired } from '../../config/emailVerificationPolicy';
 
 export const RegistrationPage = () => {
 	const navigate = useNavigate();
@@ -46,7 +47,10 @@ export const RegistrationPage = () => {
 		return <LoadingState />;
 	}
 
-	if (currentUser?.registrationStatus === 'pending_email_verification') {
+	if (
+		isEmailVerificationRequired() &&
+		currentUser?.registrationStatus === 'pending_email_verification'
+	) {
 		return <Navigate to="/verify-email" replace />;
 	}
 

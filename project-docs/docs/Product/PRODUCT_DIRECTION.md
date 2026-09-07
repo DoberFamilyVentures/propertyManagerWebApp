@@ -8,13 +8,13 @@ Maintley helps people preserve, understand, and act on property knowledge over t
 
 Properties accumulate information across years and decades:
 
-* Maintenance history
-* Equipment information
-* Service records
-* Documentation
-* Repairs
-* Contractor knowledge
-* Owner knowledge
+- Maintenance history
+- Equipment information
+- Service records
+- Documentation
+- Repairs
+- Contractor knowledge
+- Owner knowledge
 
 Much of that information is lost when records are scattered across notebooks, emails, folders, spreadsheets, and memory.
 
@@ -26,11 +26,11 @@ Maintley exists to help homeowners, landlords, and property managers build a rel
 
 Maintley has:
 
-* A live production platform
-* A paying customer
-* Real user feedback
-* Android support
-* Active product iteration
+- A live production platform
+- A paying customer
+- Real user feedback
+- Android support
+- Active product iteration
 
 The current challenge is not feature availability.
 
@@ -46,10 +46,10 @@ Property information is fragmented.
 
 People often know:
 
-* What work was done
-* Who performed it
-* When it happened
-* What equipment exists
+- What work was done
+- Who performed it
+- When it happened
+- What equipment exists
 
 until enough time passes.
 
@@ -87,14 +87,14 @@ Maintley Intelligence helps users act on preserved property knowledge.
 
 Current and future features should roll up to the mission and product promise:
 
-* Quick Property Scan
-* Property Setup Assistant
-* Maintenance History
-* Documents
-* Warranties
-* Tasks
-* Parts
-* Timeline
+- Quick Property Scan
+- Property Setup Assistant
+- Maintenance History
+- Documents
+- Warranties
+- Tasks
+- Parts
+- Timeline
 
 ---
 
@@ -110,10 +110,10 @@ Maintley is a system that preserves a property's operational memory.
 
 Every feature should support at least one of the following:
 
-* Record
-* Remember
-* Understand
-* Guide
+- Record
+- Remember
+- Understand
+- Guide
 
 These four stages map to Maintley's product architecture:
 
@@ -147,21 +147,21 @@ Future features should be evaluated against this progression.
 
 Ask:
 
-* Does it record property knowledge?
-* Does it help the property remember?
-* Does it help Maintley understand the property history?
-* Does it guide the user toward a better decision?
+- Does it record property knowledge?
+- Does it help the property remember?
+- Does it help Maintley understand the property history?
+- Does it guide the user toward a better decision?
 
 If a feature does none of these, it should be questioned before implementation.
 
 Examples:
 
-* Barcode scanning records knowledge.
-* Manual parsing expands what Maintley can understand.
-* Maintenance History helps the property remember.
-* Linked documents preserve context.
-* Maintley Intelligence guides users toward better decisions.
-* Property transfer preserves knowledge across owners.
+- Barcode scanning records knowledge.
+- Manual parsing expands what Maintley can understand.
+- Maintenance History helps the property remember.
+- Linked documents preserve context.
+- Maintley Intelligence guides users toward better decisions.
+- Property transfer preserves knowledge across owners.
 
 This philosophy should guide product decisions without becoming heavy customer-facing language. Customers should primarily hear the outcome:
 
@@ -177,10 +177,10 @@ Every record you save today helps future you make better decisions tomorrow.
 
 Need:
 
-* Maintenance tracking
-* Equipment records
-* Documentation storage
-* Maintenance reminders
+- Maintenance tracking
+- Equipment records
+- Documentation storage
+- Maintenance reminders
 
 Usually focused on a single property.
 
@@ -190,10 +190,10 @@ Usually focused on a single property.
 
 Need:
 
-* Multi-property organization
-* Maintenance visibility
-* Contractor coordination
-* Historical records
+- Multi-property organization
+- Maintenance visibility
+- Contractor coordination
+- Historical records
 
 Usually responsible for multiple properties.
 
@@ -203,10 +203,10 @@ Usually responsible for multiple properties.
 
 Need:
 
-* Team coordination
-* Property assignments
-* Maintenance operations
-* Tenant communication
+- Team coordination
+- Property assignments
+- Maintenance operations
+- Tenant communication
 
 Usually responsible for portfolios.
 
@@ -226,11 +226,11 @@ Every completed task, uploaded document, maintenance event, and equipment record
 
 Users should not need to remember:
 
-* Filter sizes
-* Install dates
-* Contractor names
-* Warranty information
-* Maintenance schedules
+- Filter sizes
+- Install dates
+- Contractor names
+- Warranty information
+- Maintenance schedules
 
 Maintley should preserve that information.
 
@@ -244,9 +244,9 @@ Maintley should recommend improvements rather than require them.
 
 Examples:
 
-* Add Filter Size
-* Add Install Date
-* Add Warranty Information
+- Add Filter Size
+- Add Install Date
+- Add Warranty Information
 
 These should remain opportunities rather than requirements.
 
@@ -256,10 +256,10 @@ These should remain opportunities rather than requirements.
 
 Users should be able to quickly answer:
 
-* What needs attention?
-* What was done?
-* What equipment exists?
-* What information is missing?
+- What needs attention?
+- What was done?
+- What equipment exists?
+- What information is missing?
 
 The product should support decisions and actions rather than data collection for its own sake.
 
@@ -341,12 +341,12 @@ Properties are the primary organizing object within Maintley.
 
 Properties own:
 
-* Equipment Records
-* Tasks
-* Maintenance History
-* Documentation
-* Contractors
-* Tenants
+- Equipment Records
+- Tasks
+- Maintenance History
+- Documentation
+- Contractors
+- Tenants
 
 Properties provide context.
 
@@ -358,11 +358,11 @@ The Historical Layer
 
 Maintenance History preserves:
 
-* Completed work
-* Repairs
-* Inspections
-* Service records
-* Documentation
+- Completed work
+- Repairs
+- Inspections
+- Service records
+- Documentation
 
 Maintenance Events are the long-term record of activity.
 
@@ -378,11 +378,11 @@ Maintley Intelligence helps users improve records and identify opportunities.
 
 Examples:
 
-* Missing information
-* Suggested maintenance
-* Quick Scan observations
-* Dashboard recommendations
-* Property Insights
+- Missing information
+- Suggested maintenance
+- Quick Scan observations
+- Dashboard recommendations
+- Property Insights
 
 Maintley Intelligence should derive from records.
 
@@ -396,11 +396,11 @@ The immediate priority is strengthening the core experience.
 
 Focus areas:
 
-* Discoverability
-* Navigation clarity
-* Mobile usability
-* Workflow simplicity
-* Feature visibility
+- Discoverability
+- Navigation clarity
+- Mobile usability
+- Workflow simplicity
+- Feature visibility
 
 Users should be able to understand Maintley without tutorials.
 
@@ -435,15 +435,22 @@ understanding and planning capabilities.
 Property adds simple teams, residents, requests, and business collaboration to
 the core maintenance workflow. It does not include full Maintley Intelligence.
 
+Those resident Maintenance Requests remain an operational
+tenant-to-landlord/property-manager workflow. They are distinct from the
+homeowner-controlled Service Work Request and Work Request Report direction in
+[ADR 0044](../../ADR/0044-provider-neutral-work-request-and-contractor-response.md).
+Introducing the homeowner workflow must not repurpose or remove existing
+resident request behavior.
+
 Portfolio combines advanced business coordination with full Maintley
 Intelligence and cross-property understanding.
 
 When deciding feature placement, ask:
 
-* Does this help someone record or maintain a home? Include it in Free.
-* Does this help someone understand, infer, predict, or decide? Include it in
+- Does this help someone record or maintain a home? Include it in Free.
+- Does this help someone understand, infer, predict, or decide? Include it in
   Homeowner+ and Portfolio.
-* Does this coordinate people or resident workflows? Include it in Property
+- Does this coordinate people or resident workflows? Include it in Property
   and Portfolio.
 
 Plan downgrades are non-destructive. They may restrict new creation, premium
@@ -460,12 +467,12 @@ The dashboard should answer:
 
 The dashboard should prioritize:
 
-* Action Center
-* Overdue tasks
-* Upcoming work
-* Maintley Intelligence recommendations
-* Property selection
-* Home Activity
+- Action Center
+- Overdue tasks
+- Upcoming work
+- Maintley Intelligence recommendations
+- Property selection
+- Home Activity
 
 The dashboard should be personal-first and scope-aware. Owners and managers may
 see broader priorities across the homes or properties in view, while team members
@@ -505,20 +512,20 @@ Its purpose is to help users improve records and identify maintenance opportunit
 
 Current and future examples:
 
-* Setup recommendations
-* Suggested maintenance
-* Quick Scan
-* Dashboard recommendations
-* Property Insights
-* Portfolio scans
+- Setup recommendations
+- Suggested maintenance
+- Quick Scan
+- Dashboard recommendations
+- Property Insights
+- Portfolio scans
 
 Maintley Intelligence should grow through three distinct levels.
 
 Each level should answer a different customer question:
 
-* Quick Property Scan: "What did Maintley find that is worth my attention?"
-* Full Property Audit: "How complete and maintainable are my property records?"
-* Ongoing Maintley Intelligence: "What should I think about next?"
+- Quick Property Scan: "What did Maintley find that is worth my attention?"
+- Full Property Audit: "How complete and maintainable are my property records?"
+- Ongoing Maintley Intelligence: "What should I think about next?"
 
 Quick Property Scan should remain fast, actionable, and available on free and paid plans.
 
@@ -611,21 +618,21 @@ The assistant should live within the property experience and support gradual imp
 
 Examples:
 
-* Kitchen
-* Bathrooms
-* Laundry
-* Garage
-* Exterior
-* Utility Systems
-* Safety
-* Attic
-* Basement
+- Kitchen
+- Bathrooms
+- Laundry
+- Garage
+- Exterior
+- Utility Systems
+- Safety
+- Attic
+- Basement
 
 Supported responses:
 
-* Present
-* Not Present
-* Skip for now
+- Present
+- Not Present
+- Skip for now
 
 Users should never be penalized for systems they do not have.
 Items skipped for now should stay open so users understand they can return later.
@@ -640,16 +647,16 @@ When forced to choose:
 
 Prefer:
 
-* Simpler workflows
-* Better discoverability
-* Better defaults
-* Better navigation
+- Simpler workflows
+- Better discoverability
+- Better defaults
+- Better navigation
 
 Over:
 
-* Additional complexity
-* Advanced configuration
-* Rare edge cases
+- Additional complexity
+- Advanced configuration
+- Rare edge cases
 
 ---
 
@@ -680,12 +687,12 @@ Future features should answer at least one of the following questions:
 
 Does this help users:
 
-* Understand a property?
-* Maintain a property?
-* Preserve knowledge?
-* Improve decision making?
-* Reduce reliance on memory?
-* Complete maintenance more effectively?
+- Understand a property?
+- Maintain a property?
+- Preserve knowledge?
+- Improve decision making?
+- Reduce reliance on memory?
+- Complete maintenance more effectively?
 
 Features that do not support these goals should be carefully evaluated before implementation.
 
@@ -697,12 +704,12 @@ Maintley should become the operational memory system for properties.
 
 Over time the platform should help users:
 
-* Understand their properties
-* Preserve maintenance history
-* Improve maintenance habits
-* Reduce forgotten information
-* Coordinate maintenance activities
-* Make better property decisions
+- Understand their properties
+- Preserve maintenance history
+- Improve maintenance habits
+- Reduce forgotten information
+- Coordinate maintenance activities
+- Make better property decisions
 
 Tasks, documentation, maintenance history, recommendations, and Maintley Intelligence all exist to support this goal.
 
@@ -716,13 +723,19 @@ The objective is to make property knowledge useful over time.
 
 The product is improving if users can:
 
-* Understand the main workflow quickly.
-* Find important features without help.
-* Add information with minimal effort.
-* Complete maintenance tasks easily.
-* Understand how tasks become history.
-* Understand why records matter.
-* Improve their property records over time.
-* Feel confident using Maintley without tutorials.
+- Understand the main workflow quickly.
+- Find important features without help.
+- Add information with minimal effort.
+- Complete maintenance tasks easily.
+- Understand how tasks become history.
+- Understand why records matter.
+- Improve their property records over time.
+- Feel confident using Maintley without tutorials.
 
 If users can do those things, Maintley is moving in the right direction.
+
+The staged multi-product, shared-Intelligence, integration, and assistant
+direction is documented separately in
+[Maintley Platform Direction](MAINTLEY_PLATFORM_DIRECTION.md). That direction
+does not imply that its planned packages, connectors, or assistant channels are
+currently implemented.

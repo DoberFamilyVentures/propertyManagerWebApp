@@ -202,6 +202,7 @@ jobs:
           REACT_APP_PUBLIC_WEB_URL: ${{ vars[format('{0}_REACT_APP_PUBLIC_WEB_URL', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] }}
           REACT_APP_PLAY_STORE_URL: ${{ vars[format('{0}_REACT_APP_PLAY_STORE_URL', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] }}
           REACT_APP_ANALYTICS_DEBUG: ${{ vars[format('{0}_REACT_APP_ANALYTICS_DEBUG', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] || 'false' }}
+          REACT_APP_REQUIRE_EMAIL_VERIFICATION: ${{ vars[format('{0}_REACT_APP_REQUIRE_EMAIL_VERIFICATION', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] || (github.event_name == 'pull_request' && github.base_ref == 'beta' && 'false' || 'true') }}
           REACT_APP_ENABLE_HOMEOWNER_PLUS_PRODUCT_TRIAL: ${{ vars[format('{0}_REACT_APP_ENABLE_HOMEOWNER_PLUS_PRODUCT_TRIAL', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] || 'false' }}
           REACT_APP_ENABLE_INTERNAL_ENTITLEMENT_GRANT_ISSUANCE: ${{ vars[format('{0}_REACT_APP_ENABLE_INTERNAL_ENTITLEMENT_GRANT_ISSUANCE', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] || 'false' }}
           REACT_APP_ENABLE_TRUSTED_SETUP_PLAN_ACTIVATION: ${{ vars[format('{0}_REACT_APP_ENABLE_TRUSTED_SETUP_PLAN_ACTIVATION', github.event_name == 'pull_request' && github.base_ref == 'beta' && 'DEV' || 'PROD')] || 'false' }}

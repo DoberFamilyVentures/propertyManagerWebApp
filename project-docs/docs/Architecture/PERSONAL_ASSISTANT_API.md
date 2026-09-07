@@ -17,3 +17,14 @@ Maintenance history combines canonical `maintenanceEvents` with legacy `maintena
 Credentials are limited to 120 requests per minute. Access creates minimized audit records and updates `lastUsedAt` at most once every 15 minutes. The API supports only `GET`; operational audit, rate-limit, and last-used writes do not modify property records.
 
 The machine-readable contract is [PERSONAL_ASSISTANT_API_OPENAPI.yaml](PERSONAL_ASSISTANT_API_OPENAPI.yaml).
+
+## Future customer assistant direction
+
+This API remains private, Maintley Owner-only, and read-only. It is not the
+customer authentication boundary for ChatGPT or another assistant.
+
+[ADR 0043](../../ADR/0043-customer-authorized-assistant-and-mcp-boundary.md)
+defines the planned customer-authorized assistant boundary. Customer OAuth, a
+remote MCP server, and a public ChatGPT plugin are not implemented or deployed.
+The implementation plan is documented in the
+[ChatGPT MCP read-only integration plan](../../reports/2026-09-06-chatgpt-mcp-read-only-integration-plan.md).

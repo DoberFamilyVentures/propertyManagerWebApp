@@ -26,6 +26,7 @@ import { db } from './config/firebase';
 import type { User } from './Redux/Slices/userSlice';
 import { syncSubscriptionFromStripe } from './services/stripeService';
 import { recordCurrentUserActivity } from './services/userActivityService';
+import { isEmailVerificationRequired } from './config/emailVerificationPolicy';
 
 const USER_ACTIVITY_HEARTBEAT_INTERVAL_MS = 15 * 60 * 1000;
 
@@ -99,6 +100,7 @@ export const App = () => {
 	const pushNotificationsInitializedRef = useRef(false);
 	const stripeSyncKeyRef = useRef('');
 	const isPendingEmailVerification =
+		isEmailVerificationRequired() &&
 		currentUser?.registrationStatus === 'pending_email_verification';
 
 	useEffect(() => {

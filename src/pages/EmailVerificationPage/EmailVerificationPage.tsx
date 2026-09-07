@@ -13,6 +13,7 @@ import {
 	sendCurrentUserEmailVerification,
 } from '../../services/emailVerificationService';
 import { trackAnalyticsEvent } from '../../analytics/analytics';
+import { isEmailVerificationRequired } from '../../config/emailVerificationPolicy';
 import {
 	PrimaryAction,
 	SecondaryAction,
@@ -46,6 +47,10 @@ export const EmailVerificationPage = () => {
 	const [cooldown, setCooldown] = useState(0);
 
 	useEffect(() => {
+		if (currentUser && !isEmailVerificationRequired()) {
+			navigate(getPostVerificationDestination(currentUser), { replace: true });
+			return;
+		}
 		if (
 			currentUser &&
 			currentUser.registrationStatus !== 'pending_email_verification'
@@ -123,8 +128,16 @@ export const EmailVerificationPage = () => {
 	};
 
 	const signOutAndReturn = async () => {
-		await signOutUser();
-		navigate('/login', { replace: true });
+		setError('');
+		try {
+			await signOutUser();
+			dispatch(setCurrentUser(null));
+			navigate('/login', { replace: true });
+		} catch (signOutError: any) {
+			setError(
+				String(signOutError?.message || 'Maintley could not sign you out. Please try again.'),
+			);
+		}
 	};
 
 	return (
@@ -162,7 +175,7 @@ export const EmailVerificationPage = () => {
 								: 'Send another verification email'}
 					</SecondaryAction>
 					<TextAction type='button' onClick={() => void signOutAndReturn()}>
-						Do this later
+						Sign out
 					</TextAction>
 				</VerificationActions>
 			</VerificationCard>

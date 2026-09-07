@@ -449,6 +449,13 @@ reporting or require analytics scripts during local work. The environment
 contract's `localDefault` metadata records this difference and the organizer
 persists it as a generated local override.
 
+Email verification is also environment-specific. Set both
+`REACT_APP_REQUIRE_EMAIL_VERIFICATION` and `REQUIRE_EMAIL_VERIFICATION` to
+`false` for Beta/local and `true` for production. Both application and Functions
+implementations fail closed when the value is missing or unrecognized. The
+browser flag controls email prompts and route gates; the Functions flag remains
+the authority for activating a profile without Firebase Auth verification.
+
 `COMPLIMENTARY_ACCESS_CODE_PEPPER` is a Firebase Functions secret, not a GitHub
 Actions variable and not a normal dotenv value in production. Create it with
 `firebase functions:secrets:set COMPLIMENTARY_ACCESS_CODE_PEPPER` using at least

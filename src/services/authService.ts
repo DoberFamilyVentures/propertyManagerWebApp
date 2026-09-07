@@ -28,6 +28,7 @@ import { DEFAULT_NOTIFICATION_PREFERENCES } from '../utils/notificationPreferenc
 import { DEFAULT_EMAIL_PREFERENCES } from '../utils/emailPreferences';
 import { getUserProfile } from './userProfileService';
 import { reconcileCurrentUserEmailVerification } from './emailVerificationService';
+import { isEmailVerificationRequired } from '../config/emailVerificationPolicy';
 
 export { getUserProfile } from './userProfileService';
 export { onAuthStateChange } from './authSession';
@@ -595,7 +596,9 @@ export const signUpWithEmail = async (
 					} as User);
 
 		return {
-			user: finalUser,
+			user: isEmailVerificationRequired()
+				? finalUser
+				: await reconcileCurrentUserEmailVerification(finalUser),
 		};
 	} catch (error: any) {
 		console.error('Sign up error:', error);

@@ -34,28 +34,38 @@ those accounts would create unnecessary continuity risk.
 
 ## Decision
 
-All new self-service email-and-password registrations enter an explicit
-`pending_email_verification` state.
+All new self-service email-and-password registrations initially enter an
+explicit `pending_email_verification` state. Whether that state blocks product
+access is controlled by a deploy-time environment policy.
 
-After creating the Firebase Auth identity and Firestore profile, Maintley sends
-a Firebase-managed verification message and routes the authenticated user to a
-dedicated verification screen. The screen keeps confirmation in one focused
-experience: the user may confirm that the link has been used, request another
-message, or choose `Do this later`, which signs the pending account out.
+Production requires verification. The browser and trusted callable both fail
+closed when their configuration is missing or unrecognized. Maintley Beta and
+local development explicitly disable the requirement because those environments
+do not provide customer email delivery and are intended for isolated testing.
+
+When verification is required, Maintley sends a Firebase-managed verification
+message after creating the Firebase Auth identity and Firestore profile, then
+routes the authenticated user to a dedicated verification screen. The screen
+keeps confirmation in one focused experience: the user may confirm that the
+link has been used, request another message, or sign out and finish later.
 
 When the user signs in again, Maintley refreshes the Firebase Authentication
 record. If Firebase already reports the email as verified, Maintley completes
 the trusted profile transition automatically before routing. Otherwise, the
 user returns to the verification screen.
 
-The user may not enter checkout, onboarding, or the working application while
-the profile remains pending.
+When verification is required, the user may not enter checkout, onboarding, or
+the working application while the profile remains pending. When it is disabled,
+the browser does not send a verification message or expose verification gates,
+and a trusted transition activates the profile immediately after creation.
 
-Verification is finalized through a trusted callable. The callable reads the
-Firebase Authentication user record and changes the Firestore registration
-status to `active` only when Firebase reports `emailVerified: true`. Clients and
-account managers cannot directly change registration status or verification
-timestamps.
+Verification is finalized through a trusted callable. In production, the
+callable reads the Firebase Authentication user record and changes the
+Firestore registration status to `active` only when Firebase reports
+`emailVerified: true`. In an explicitly exempt environment, the same callable
+may activate the pending profile without claiming that its email was verified.
+Clients and account managers cannot directly change registration status,
+verification timestamps, or the server environment policy.
 
 Maintley does not automatically delete unverified accounts. Users may return
 later, resend verification, and finish registration. Existing users whose
@@ -96,6 +106,12 @@ The transition is idempotent. Rechecking an already verified account may refresh
 its trusted verification timestamp without duplicating account records,
 entitlements, or email deliveries.
 
+Beta and local builds preserve the same client-write rule: the browser creates
+only a pending profile, then requests immediate trusted activation. This avoids
+weakening shared Firestore Rules or introducing a client-controlled active-state
+write. If trusted activation is temporarily unavailable, the non-production UI
+still remains usable and session reconciliation retries the transition later.
+
 ## Email Delivery Boundary
 
 The signup welcome email is sent only after a new profile transitions from
@@ -108,8 +124,10 @@ deferred with the explainable outcome `recipient_email_unverified`. Verification
 may allow a later eligible scheduler run to deliver the message; no provider
 attempt is made while the address remains unverified.
 
-Firebase's verification email is intentionally still delivered because it is
-the mechanism used to establish mailbox ownership.
+Firebase's verification email is intentionally still delivered when verification
+is required because it is the mechanism used to establish mailbox ownership.
+An environment-exempt activation does not satisfy this email-delivery boundary
+and does not create a verification or welcome-email provider attempt.
 
 ## Invitations and Complimentary Access
 
@@ -124,12 +142,12 @@ to use its existing server-side recipient and eligibility checks.
 
 ## Profile Experience
 
-An authenticated legacy user whose Firebase Authentication email remains
-unverified can send a verification email from Profile. Maintley recognizes the
-updated Firebase verification state on a later sign-in; Profile does not expose
-a separate client confirmation action. Verification remains optional for legacy
-application access. No expiration or automatic cleanup is attached to the
-reminder.
+In an environment where verification is required, an authenticated legacy user
+whose Firebase Authentication email remains unverified can send a verification
+email from Profile. Maintley recognizes the updated Firebase verification state
+on a later sign-in; Profile does not expose a separate client confirmation
+action. Verification remains optional for legacy application access. No
+expiration or automatic cleanup is attached to the reminder.
 
 ## Analytics
 
@@ -172,7 +190,8 @@ automatic deletion in this decision.
 * Registration adds an inbox step before the first product experience.
 * Verification delivery problems can delay legitimate users.
 * Firebase authorized domains and email-action return URLs must remain correct
-  in Beta and production.
+  in production and in any non-production environment that opts into verification.
+* Browser and Functions configuration must agree on the verification policy.
 * Invitation, complimentary-access, paid-checkout, and E2E flows must preserve
   their continuation across verification.
 * A pending Auth and profile record may remain indefinitely when registration is
@@ -185,7 +204,7 @@ This decision does not introduce:
 * automatic deletion of pending or legacy unverified accounts;
 * a disposable-email-domain blacklist;
 * third-party mailbox validation;
-* a public or client-controlled verification bypass;
+* a public, runtime, or client-controlled verification bypass;
 * mandatory verification for legacy application access; or
 * Identity Platform reCAPTCHA enforcement.
 
@@ -203,13 +222,18 @@ Bot scoring or reCAPTCHA may be evaluated separately after Beta measurement.
 - [x] Add optional Profile verification for legacy users.
 - [x] Preserve complimentary-access continuation.
 - [x] Adapt isolated activation E2E coverage.
-- [ ] Validate Firebase email templates and authorized return domains in Beta.
-- [ ] Manually test standard, paid, invitation, and complimentary-access flows in Beta.
+- [x] Add a fail-closed environment policy with an explicit Beta/local exemption.
+- [x] Keep exempt activation behind the trusted callable and shared Firestore Rules.
+- [ ] Validate Firebase email templates and authorized return domains in production.
+- [ ] Manually test standard, paid, invitation, and complimentary-access verification flows in production.
 
 ## Success Criteria
 
-This decision is complete when a new unverified registration cannot enter
-checkout or the working app, cannot directly mark itself active, and does not
-cause welcome or access-lifecycle provider delivery; a verified registration can
-resume its intended path; legacy accounts remain available; and an unverified
-legacy user can request and confirm verification from Profile.
+This decision is complete when production prevents a new unverified registration
+from entering checkout or the working app, no client can directly mark itself
+active, and unverified registrations do not cause welcome or access-lifecycle
+provider delivery. Explicitly exempt Beta/local environments must remain usable
+without sending verification email while preserving the trusted profile-write
+boundary. Verified production registrations can resume their intended path,
+legacy accounts remain available, and an unverified legacy production user can
+request verification from Profile.

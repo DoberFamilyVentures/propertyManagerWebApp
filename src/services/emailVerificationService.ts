@@ -7,6 +7,7 @@ import { auth } from '../config/firebase';
 import { callFirebaseFunction } from '../config/firebaseFunctions';
 import type { User } from '../Redux/Slices/userSlice';
 import { getUserProfile } from './userProfileService';
+import { isEmailVerificationRequired } from '../config/emailVerificationPolicy';
 
 const getEmailVerificationReturnUrl = (): string => {
 	const origin = window.location.origin;
@@ -25,6 +26,7 @@ const getEmailVerificationSettings = (): ActionCodeSettings => ({
 });
 
 export const sendCurrentUserEmailVerification = async (): Promise<void> => {
+	if (!isEmailVerificationRequired()) return;
 	const firebaseUser = auth.currentUser;
 	if (!firebaseUser) {
 		throw new Error('Sign in before requesting a verification email.');
@@ -46,8 +48,11 @@ export const refreshCurrentUserEmailVerification = async (): Promise<boolean> =>
 };
 
 export const finalizeCurrentUserEmailVerification = async (): Promise<User> => {
-	const verified = await refreshCurrentUserEmailVerification();
-	if (!verified || !auth.currentUser) {
+	const verificationRequired = isEmailVerificationRequired();
+	const verified = verificationRequired
+		? await refreshCurrentUserEmailVerification()
+		: Boolean(auth.currentUser?.emailVerified);
+	if ((verificationRequired && !verified) || !auth.currentUser) {
 		throw new Error(
 			'Your email is not verified yet. Open the link in your email, then try again.',
 		);
@@ -66,8 +71,11 @@ export const reconcileCurrentUserEmailVerification = async (
 	if (user.registrationStatus !== 'pending_email_verification') return user;
 
 	try {
-		const verified = await refreshCurrentUserEmailVerification();
-		if (!verified || !auth.currentUser) return user;
+		const verificationRequired = isEmailVerificationRequired();
+		const verified = verificationRequired
+			? await refreshCurrentUserEmailVerification()
+			: Boolean(auth.currentUser?.emailVerified);
+		if ((verificationRequired && !verified) || !auth.currentUser) return user;
 
 		await callFirebaseFunction<Record<string, never>, { status: 'active' }>(
 			'finalizeEmailVerification',

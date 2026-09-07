@@ -18,6 +18,7 @@ import {
 	useGetTeamMembersQuery,
 } from '../Redux/API/teamSlice';
 import type { Property, PropertyGroup } from '../types/Property.types';
+import { isEmailVerificationRequired } from '../config/emailVerificationPolicy';
 
 interface DataFetchContextType {
 	isInitialLoadComplete: boolean;
@@ -67,7 +68,8 @@ export const DataFetchProvider: React.FC<DataFetchProviderProps> = ({
 	const currentUser = useSelector((state: RootState) => state.user.currentUser);
 	const canLoadAppData =
 		Boolean(currentUser) &&
-		currentUser?.registrationStatus !== 'pending_email_verification';
+		(!isEmailVerificationRequired() ||
+			currentUser?.registrationStatus !== 'pending_email_verification');
 	const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 

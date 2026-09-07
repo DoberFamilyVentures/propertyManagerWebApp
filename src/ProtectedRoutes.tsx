@@ -7,6 +7,7 @@ import { LoadingState } from './Components/LoadingState';
 import { USER_ROLES } from './constants/roles';
 import type { UserRole } from './constants/roles';
 import { isSubscriptionActive } from './utils/subscriptionUtils';
+import { isEmailVerificationRequired } from './config/emailVerificationPolicy';
 
 interface ProtectedRoutesProps {
 	children: React.ReactNode;
@@ -65,6 +66,7 @@ export const ProtectedRoutes = ({
 		location.pathname === '/verify-email/';
 
 	if (
+		isEmailVerificationRequired() &&
 		currentUser?.registrationStatus === 'pending_email_verification' &&
 		!isEmailVerificationRoute
 	) {
