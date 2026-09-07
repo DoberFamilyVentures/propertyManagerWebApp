@@ -528,7 +528,7 @@ functions/lib/
 Compiled output is generated during build and is not source-controlled. The
 current public deployment surface is guarded by
 `functions/function-exports.json`; the executable inventory currently contains
-109 Firebase exports.
+112 Firebase exports.
 
 Primary export:
 

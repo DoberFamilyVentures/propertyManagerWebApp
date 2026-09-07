@@ -97,6 +97,7 @@
 	"setSupplyLinks",
 	"setTaskSpaceLinks",
 	"stripeWebhook",
+	"startServiceWorkRequest",
 	"submitFeedback",
 	"syncSubscriptionFromStripe",
 	"syncTenantAccessFromInvites",

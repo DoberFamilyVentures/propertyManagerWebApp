@@ -750,6 +750,53 @@ rejected. Direct client writes remain denied.
 
 ---
 
+## Service Work Requests
+
+Paths:
+
+```text
+serviceWorkRequests/{workRequestId}
+workRequestReports/{reportVersionId}
+workRequestEvents/{eventId}
+workRequestShares/{shareId}
+```
+
+Start:
+
+* Authenticated account owners only
+* Active trusted `service_work_requests.use` account capability required
+* Account authority is derived from authentication, never accepted from the
+  command payload
+* The selected Property must resolve to that account inside the write
+  transaction
+
+Read:
+
+* Account owners may read sessions, reports, and events whose `accountId` and
+  `propertyId` still resolve to the same Property boundary
+* Ordinary members, maintenance roles, and users from another account are
+  denied
+* Share records deny all direct client reads
+
+Create, update, delete:
+
+* Cloud Functions and Admin SDK only for every collection
+* The current callable creates only a session and its start event
+* A repeated idempotent start may read and return the existing session but does
+  not create a second event
+
+The capability is absent from every subscription-plan preset. Only an active,
+server-written account grant with the explicit capability override can enable
+the private pilot. Revoked, expired, malformed, or client-authored grants fail
+closed. Removing pilot access does not prevent an owner from reading an already
+created record.
+
+Service Work Requests remain separate from tenant or resident Maintenance
+Requests. This permission boundary does not alter existing request submission,
+manager review, notification, reporting, or Task-conversion behavior.
+
+---
+
 ## propertyDocuments
 
 Read:

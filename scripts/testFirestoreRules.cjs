@@ -405,6 +405,12 @@ async function seedFirestore(env) {
 			address: '123 Sand Oak Drive, Apt A',
 		});
 
+		await db.doc('properties/outsider-property').set({
+			accountId: outsiderUid,
+			userId: outsiderUid,
+			title: 'Outsider Property',
+		});
+
 		await db
 			.doc('propertyDocuments/property-document-owned')
 			.set(createPropertyDocument());
@@ -525,6 +531,39 @@ async function seedFirestore(env) {
 			priority: 'normal',
 			createdAt: '2026-07-01T12:00:00.000Z',
 			updatedAt: '2026-07-01T12:00:00.000Z',
+		});
+
+		for (const collectionName of [
+			'serviceWorkRequests',
+			'workRequestReports',
+			'workRequestEvents',
+		]) {
+			await db.doc(`${collectionName}/work-request-record-owned`).set({
+				id: 'work-request-record-owned',
+				accountId,
+				propertyId: 'property-1',
+				workRequestId: 'work-request-owned',
+				createdAt: '2026-09-07T14:00:00.000Z',
+				updatedAt: '2026-09-07T14:00:00.000Z',
+			});
+			await db.doc(`${collectionName}/work-request-record-outsider`).set({
+				id: 'work-request-record-outsider',
+				accountId: outsiderUid,
+				propertyId: 'outsider-property',
+				workRequestId: 'work-request-outsider',
+				createdAt: '2026-09-07T14:00:00.000Z',
+				updatedAt: '2026-09-07T14:00:00.000Z',
+			});
+		}
+
+		await db.doc('workRequestShares/work-request-share-owned').set({
+			id: 'work-request-share-owned',
+			accountId,
+			propertyId: 'property-1',
+			workRequestId: 'work-request-owned',
+			credentialHash: 'server-only-hash',
+			createdAt: '2026-09-07T14:00:00.000Z',
+			updatedAt: '2026-09-07T14:00:00.000Z',
 		});
 
 		await db.doc('feedback/feedback-owned').set({
@@ -1667,6 +1706,72 @@ async function run() {
 			}),
 		);
 		await assertFails(ownerDb.doc('maintleyEvents/event-owned').delete());
+
+		for (const protectedCollection of [
+			'serviceWorkRequests',
+			'workRequestReports',
+			'workRequestEvents',
+		]) {
+			await assertSucceeds(
+				ownerDb.doc(`${protectedCollection}/work-request-record-owned`).get(),
+			);
+			await assertSucceeds(
+				ownerDb
+					.collection(protectedCollection)
+					.where('accountId', '==', accountId)
+					.where('propertyId', '==', 'property-1')
+					.get(),
+			);
+			await assertFails(
+				maintenanceLeadDb
+					.doc(`${protectedCollection}/work-request-record-owned`)
+					.get(),
+			);
+			await assertFails(
+				outsiderDb
+					.doc(`${protectedCollection}/work-request-record-owned`)
+					.get(),
+			);
+			await assertSucceeds(
+				outsiderDb
+					.doc(`${protectedCollection}/work-request-record-outsider`)
+					.get(),
+			);
+			await assertFails(
+				ownerDb.doc(`${protectedCollection}/client-created`).set({
+					accountId,
+					propertyId: 'property-1',
+				}),
+			);
+			await assertFails(
+				ownerDb
+					.doc(`${protectedCollection}/work-request-record-owned`)
+					.update({ updatedAt: '2026-09-07T15:00:00.000Z' }),
+			);
+			await assertFails(
+				ownerDb
+					.doc(`${protectedCollection}/work-request-record-owned`)
+					.delete(),
+			);
+		}
+
+		await assertFails(
+			ownerDb.doc('workRequestShares/work-request-share-owned').get(),
+		);
+		await assertFails(
+			ownerDb.doc('workRequestShares/client-created').set({
+				accountId,
+				propertyId: 'property-1',
+			}),
+		);
+		await assertFails(
+			ownerDb.doc('workRequestShares/work-request-share-owned').update({
+				revokedAt: '2026-09-07T15:00:00.000Z',
+			}),
+		);
+		await assertFails(
+			ownerDb.doc('workRequestShares/work-request-share-owned').delete(),
+		);
 
 		for (const protectedCollection of [
 			'personalAssistantCredentials',

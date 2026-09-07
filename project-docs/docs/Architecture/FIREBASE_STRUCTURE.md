@@ -316,6 +316,10 @@ Primary collections:
 * propertySpaces
 * propertySupplies
 * propertyKnowledgeLinks (trusted Space and Supply relationships, including reviewed migration links)
+* serviceWorkRequests (server-written, resumable homeowner intake sessions)
+* workRequestReports (server-written, versioned report artifacts)
+* workRequestEvents (server-written, append-only domain events)
+* workRequestShares (server-only secure-share metadata; sharing not yet enabled)
 * propertyGroups
 * propertyGroupMemberships
 * devices
@@ -530,6 +534,13 @@ Examples:
 
 * createMaintenanceEvent
 * createMaintenanceEventsBatch
+* startServiceWorkRequest
+
+`startServiceWorkRequest` is the only implemented Service Work Request command.
+It is account-owner-only, requires the private
+`service_work_requests.use` entitlement capability, and writes the initial
+session and `WorkRequestStarted` event in one Firestore transaction. Later
+interview, report, approval, and share commands are not exported yet.
 
 ---
 

@@ -36,6 +36,7 @@
 	},
 	"dependencies": {
 		"@maintley/entitlements": "file:packages/entitlements",
+		"@maintley/work-request-contracts": "file:packages/work-request-contracts",
 		"cors": "^2.8.6",
 		"dotenv": "^17.2.3",
 		"firebase-admin": "^12.0.0",

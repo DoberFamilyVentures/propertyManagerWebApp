@@ -51,6 +51,7 @@ const functionTests = [
 	'personalAssistantCredentialCore.test.cjs',
 	'propertyKnowledgeAcquisitionEligibility.test.cjs',
 	'propertyKnowledgeLinks.test.cjs',
+	'serviceWorkRequests.test.cjs',
 	'stripeBillingDisclosure.test.cjs',
 	'stripeSubscriptionSelection.test.cjs',
 	'workRequestContracts.test.cjs',

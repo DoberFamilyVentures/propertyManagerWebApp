@@ -182,6 +182,10 @@ const addOwnedPropertyData = async (
 		'propertySupplies',
 		'propertyKnowledgeLinks',
 		'propertyGroupMemberships',
+		'serviceWorkRequests',
+		'workRequestReports',
+		'workRequestEvents',
+		'workRequestShares',
 	];
 
 	for (const collectionName of propertyCollections) {

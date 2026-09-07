@@ -24,6 +24,11 @@ account-scoped and additive: Boolean capabilities use logical OR and numeric
 limits use the greatest approved value. Unknown plans, versions, bundles,
 capabilities, and limits fall back safely and emit diagnostics.
 
+`service_work_requests.use` is intentionally absent from every plan preset. It
+is a private-pilot capability that can be enabled only by an active, trusted
+account grant with an explicit capability override. Expired, revoked, unknown,
+or client-authored grants do not enable it.
+
 Plans are capability bundles, not a single inheritance ladder. Homeowner+ and
 Property represent parallel homeowner and business tracks; neither bundle
 implicitly includes the other. Portfolio combines the advanced business and

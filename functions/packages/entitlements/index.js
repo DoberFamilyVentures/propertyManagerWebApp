@@ -43,6 +43,7 @@ const CAPABILITY_IDS = Object.freeze([
 	'property_knowledge.acquire',
 	'property_types.business',
 	'rental_management.use',
+	'service_work_requests.use',
 ]);
 
 const LIMIT_IDS = Object.freeze([
